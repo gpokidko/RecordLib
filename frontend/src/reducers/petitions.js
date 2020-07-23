@@ -72,6 +72,8 @@ export function petitionCollectionReducer(
       //  will come up with the new id.)
       const newId = newPetition.id || state.petitionIds.length.toString();
       const normalizedPetition = normalizeOnePetition(newPetition, newId);
+      console.log("normalized new petition");
+      console.log(normalizedPetition);
       const newState = {
         entities: {
           petitions: merge({}, state.entities.petitions, {

@@ -73,6 +73,9 @@ const mapDispatchToProps = (dispatch) => {
       defaultServiceAgencies,
       defaultApplicantInfo
     ) => {
+      const aliases = Object.entries(defaultApplicantInfo.aliases).map(
+        ([id, alias]) => alias
+      );
       dispatch(
         newPetition({
           id: newId,
@@ -81,9 +84,7 @@ const mapDispatchToProps = (dispatch) => {
           service_agencies: defaultServiceAgencies,
           client: {
             ...defaultApplicantInfo.applicant,
-            aliases: Object.entries(defaultApplicantInfo.aliases).map(
-              (id, alias) => alias
-            ),
+            aliases: aliases,
           },
         })
       );
