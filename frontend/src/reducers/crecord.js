@@ -18,8 +18,6 @@ export default function cRecordReducer(state = initialCrecordState, action) {
   switch (action.type) {
     case UPDATE_CRECORD_SUCCEEDED: {
       const newCases = action.payload.cRecord.entities;
-      console.log("updating crecord with payload:");
-      console.log(action.payload);
       const newState = {
         cRecord: {
           [CRECORD_ID]: Object.assign({}, state.cRecord[CRECORD_ID], {
@@ -32,8 +30,6 @@ export default function cRecordReducer(state = initialCrecordState, action) {
         charges: Object.assign({}, state.charges, newCases.charges),
         sentences: Object.assign({}, state.sentences, newCases.sentences),
       };
-      console.log("newState is");
-      console.log(newState);
       return newState;
     }
 

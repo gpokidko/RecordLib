@@ -7,9 +7,6 @@ export const ADD_ALIAS = "ADD_ALIAS";
 export const EDIT_ALIAS = "EDIT_ALIAS";
 
 export function addOrReplaceApplicant(applicant) {
-  console.log("addOrReplaceApplicant with applicant:");
-
-  console.log(applicant);
   return {
     type: ADD_OR_REPLACE_APPLICANT,
     payload: applicant,

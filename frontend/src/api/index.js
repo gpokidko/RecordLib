@@ -113,15 +113,12 @@ export function searchUJSByName(first_name, last_name, date_of_birth) {
 }
 
 export function uploadUJSDocs(source_records) {
-  console.log("api/record/sourcrecords/fetch/");
-  console.log(source_records);
   return client.post("/api/record/sourcerecords/fetch/", {
     source_records: source_records,
   });
 }
 
 export function integrateDocsWithRecord(crecord, sourceRecords) {
-  console.log("integrateDocsWithRecord");
   return client.put("/api/record/cases/", {
     crecord: removeNullValues(crecord),
     source_records: removeNullValues(sourceRecords),
@@ -129,10 +126,6 @@ export function integrateDocsWithRecord(crecord, sourceRecords) {
 }
 
 export function guessGrade(offense, statuteComponents) {
-  console.log("searching for ");
-  console.log(offense);
-  console.log(statuteComponents);
-  console.log({ offense, ...statuteComponents });
   return client.get("/api/grades/guess/", {
     params: { offense, ...statuteComponents },
   });

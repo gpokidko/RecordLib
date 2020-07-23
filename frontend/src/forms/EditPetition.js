@@ -47,11 +47,7 @@ export const EditPetitionForm = (props) => {
     client = {},
   } = petition;
 
-  console.log("editing petition");
-  console.log(petition);
   const { aliases = [] } = client;
-  console.log("aliases");
-  console.log(aliases);
   // All the cases in the CRecord, so the user
   // can pick which ones to add to petitions.
   const caseIds = cases ? Object.keys(cases) : [];

@@ -8,6 +8,7 @@ import {
 } from "../normalize";
 import { addOrReplaceApplicant } from "./applicant";
 import { upsertSourceRecords } from "./sourceRecords";
+import { setMessage } from "./messages";
 export const UPDATE_CRECORD = "UPDATE_CRECORD";
 export const UPDATE_CRECORD_SUCCEEDED = "UPDATE_CRECORD_SUCCEEDED";
 export const FETCH_CRECORD_SUCCEEDED = "FETCH_CRECORD_SUCCEEDED";
@@ -46,14 +47,12 @@ export function analyzeCRecord() {
       .analyzeCRecord(denormalizedCRecord)
       .then((response) => {
         const data = response.data;
-        console.log("fetched data successfully");
-        console.log(data);
         const action = analyzeRecordsSucceeded(data);
         dispatch(action);
       })
       .catch((err) => {
-        console.log("error analyzing record:");
-        console.log(err);
+        console.log("Error analyzing crecord.");
+        dispatch(setMessage(err));
       });
   };
 }
@@ -65,11 +64,7 @@ export function analyzeCRecord() {
  */
 
 export function updateCRecordSucceeded(newCRecord) {
-  console.log("in updateCREcordSucceeded");
-  console.log("crecord param is");
-  console.log(newCRecord);
   const normalizedCRecord = normalizeCRecord(newCRecord);
-  console.log("normalizedCases");
   return {
     type: UPDATE_CRECORD_SUCCEEDED,
     payload: { person: newCRecord.person, cRecord: normalizedCRecord },
@@ -104,14 +99,9 @@ export function updateCRecord() {
     api
       .integrateDocsWithRecord(denormalizedCRecord, sourceRecords)
       .then((response) => {
-        console.log("response of crecord from server");
-        console.log(response.data);
         dispatch(updateCRecordSucceeded(response.data.crecord));
-        console.log(
-          "finished updating CRecord case info. Next updating applicant info."
-        );
+
         dispatch(addOrReplaceApplicant(response.data.crecord.person));
-        console.log("upserting source records after calling PUT /cases");
         dispatch(
           upsertSourceRecords({ source_records: response.data.source_records })
         );
@@ -119,6 +109,7 @@ export function updateCRecord() {
       .catch((err) => {
         console.log("error sending crecord and sourcerecords to server.");
         console.log(err);
+        dispatch(setMessage(err));
       });
   };
 }

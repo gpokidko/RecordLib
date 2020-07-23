@@ -27,8 +27,6 @@ export default applicantInfoReducer;
 function aliasReducer(state = {}, action) {
   switch (action.type) {
     case ADD_OR_REPLACE_APPLICANT: {
-      console.log("ADD OR REpLACE APPLICANT with payload:");
-      console.log(action.payload);
       const callback = (acc, curr) => {
         return Object.assign(acc, curr);
       };

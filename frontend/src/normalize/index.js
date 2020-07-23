@@ -90,11 +90,7 @@ const cRecordSchema = new schema.Entity(
  * @param {} data
  */
 export function normalizeCRecord(data) {
-  console.log("normalizing");
-  console.log(data);
   const normalized = normalize(data, cRecordSchema);
-  console.log("normalized:");
-  console.log(normalized);
   return normalize(data, cRecordSchema);
 }
 

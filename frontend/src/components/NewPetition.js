@@ -20,9 +20,6 @@ export const NewPetitionForm = (props) => {
   } = props;
   const [showEditForm, setShowEditForm] = useState(editingPetitionId !== null);
 
-  console.log("editing petition id");
-  console.log(editingPetitionId);
-
   const handleButtonClick = () => {
     newPetition(
       newPetitionId,
@@ -50,8 +47,6 @@ const generatePetitionId = (petitionIds) => {
 };
 
 const mapStateToProps = (state) => {
-  console.log("is editinPetitionID set yet?");
-  console.log(state.petitions.petitionCollection);
   return {
     newPetitionId: generatePetitionId(
       state.petitions.petitionCollection.petitionIds

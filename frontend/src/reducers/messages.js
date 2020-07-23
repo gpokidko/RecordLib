@@ -1,8 +1,8 @@
 import { NEW_MESSAGE, DISMISS_MESSAGE } from "frontend/src/actions/messages";
 
 const initialState = {
-  msgText: "Welcome!",
-  severity: "success",
+  msgText: "",
+  severity: "",
 };
 
 export default function messageReducer(state = initialState, action) {

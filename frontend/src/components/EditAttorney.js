@@ -25,9 +25,6 @@ function EditAttorney(props) {
     width: "860px",
   };
 
-  console.log("attorney addr:");
-  console.log(address);
-
   /**
    * This function starts with the modifier function, which expects a key,value pair
    * and returns a function which takes a key and returns a function which expects a value.

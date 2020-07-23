@@ -11,9 +11,6 @@ import PetitionDecision from "frontend/src/components/PetitionDecision";
 function Analysis(props) {
   const { analysis } = props;
 
-  console.log("Analysis:");
-  console.log(analysis);
-
   return (
     <Container>
       <h2> Analysis </h2>

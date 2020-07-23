@@ -72,8 +72,6 @@ export function petitionCollectionReducer(
       //  will come up with the new id.)
       const newId = newPetition.id || state.petitionIds.length.toString();
       const normalizedPetition = normalizeOnePetition(newPetition, newId);
-      console.log("normalized new petition");
-      console.log(normalizedPetition);
       const newState = {
         entities: {
           petitions: merge({}, state.entities.petitions, {
@@ -163,23 +161,17 @@ export function petitionCollectionReducer(
     }
 
     case SET_SERVICE_AGENCIES_ON_PETITION: {
-      console.log("setting service agencies:");
-
       const { petitionId, serviceAgencies } = action.payload;
-      console.log(serviceAgencies);
       const newState = mergeWith(
         {},
         state,
         (objValue, srcValue, key, object, source, stack) => {
-          console.log(`${objValue}, ${srcValue}, ${key}`);
           if (key === "service_agencies") {
             return serviceAgencies;
           }
           return undefined;
         }
       );
-      console.log("modified state after setting petitions");
-      console.log(newState);
       return newState;
     }
 

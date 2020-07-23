@@ -4,11 +4,7 @@ import { PetitionConnected } from "./Petition";
 
 export const PetitionsTable = (props) => {
   const { petitions = {} } = props;
-  console.log("petitions");
-  console.log(petitions);
   const { petitionCollection = {}, petitionUpdates = {} } = petitions;
-  console.log("petitionCollection");
-  console.log(petitionCollection);
   return (
     <div>
       {petitionCollection.petitionIds &&
