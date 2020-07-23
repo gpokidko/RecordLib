@@ -379,10 +379,15 @@ class PetitionsView(APIView):
                 return Response(
                     {"validation_errors": serializer.errors},
                     status=status.HTTP_400_BAD_REQUEST,
+                    content_type="application/json",
                 )
         except Exception as e:
             logger.error(str(e))
-            return Response("Something went wrong", status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                "Something went wrong",
+                status=status.HTTP_400_BAD_REQUEST,
+                content_type="application/json",
+            )
 
 
 class UserProfileView(APIView):

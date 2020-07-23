@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import About from "./pages/About";
 import UserProfile from "./pages/UserProfile";
 import NotFound from "./components/NotFound";
+import { MessagebarConnected } from "./components/Messagebar";
 import {
   BrowserRouter as Router,
   Switch,
@@ -59,6 +60,7 @@ function App() {
               <NotFound />
             </Route>
           </Switch>
+          <MessagebarConnected />
         </Router>
       </React.Fragment>
     </main>

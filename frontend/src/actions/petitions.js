@@ -3,6 +3,8 @@ import {
   denormalizePetitions,
 } from "frontend/src/normalize/petitions";
 import * as api from "../api";
+import { newMessage } from "./messages";
+import { fileReaderHelper } from "frontend/src/utils/fileReaderHelper";
 
 export const NEW_PETITION = "NEW_PETITION";
 export const UPDATE_PETITION = "UPDATE_PETITION";
@@ -79,14 +81,6 @@ export function fetchPetitions(petitionIds, petitions, cases, charges) {
     cases,
     charges,
   });
-  console.log("fetching petitions");
-  console.log(petitions);
-  console.log(cases);
-  console.log(charges);
-
-  console.log("denormalized petitions:");
-  console.log(denormalized);
-
   return (dispatch, getState) => {
     api
       .fetchPetitions(denormalized)
@@ -100,6 +94,25 @@ export function fetchPetitions(petitionIds, petitions, cases, charges) {
         console.log("fetched petitions successfully");
         dispatch(fetchPetitionsSucceeded());
       })
-      .catch((err) => console.log("error fetching petitions."));
+      .catch((err) => {
+        console.log("error fetching petitions.");
+        // because we requested the petitions as a blob, axios has parsed the response as a blob.
+        // but the error is json, so we need to parse it.
+        // see - https://medium.com/@fakiolinho/handle-blobs-requests-with-axios-the-right-way-bb905bdb1c04
+        try {
+          const fileReader = new FileReader();
+          fileReaderHelper(err.response.data).then((message) => {
+            console.log(message);
+            dispatch(
+              newMessage({
+                msgText: JSON.stringify(JSON.parse(message), null, 2),
+                severity: "error",
+              })
+            );
+          });
+        } catch {
+          dispatch(newMessage("Error with fetching petitions."));
+        }
+      });
   };
 }
