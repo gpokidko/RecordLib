@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-
+import Button from "@material-ui/core/Button";
 import { addCharge } from "frontend/src/actions";
 
 /**
@@ -22,13 +22,7 @@ function AddCharge(props) {
       className="addCharge"
       style={{ marginTop: "15px", marginBottom: "10px" }}
     >
-      <button
-        type="button"
-        style={{ marginLeft: "20px" }}
-        onClick={handleClick}
-      >
-        Add Charge
-      </button>
+      <Button onClick={handleClick}>Add Charge</Button>
     </div>
   );
 }

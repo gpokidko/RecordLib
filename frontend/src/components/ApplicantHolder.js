@@ -1,6 +1,6 @@
 import React from "react";
-import { connect } from 'react-redux';
-
+import { connect } from "react-redux";
+import Typography from "@material-ui/core/Typography";
 import Applicant from "./Applicant";
 import EditApplicant from "./EditApplicant";
 import { editApplicant } from "../actions/applicant";
@@ -14,19 +14,20 @@ import { editApplicant } from "../actions/applicant";
  * EditApplicant component to send changes to the redux store.
  */
 function ApplicantHolder(props) {
-    return (
-        <div className="applicantHolder" >
-            { !props.editing?
-                <Applicant {...props} />
-                : <EditApplicant {...props} />
-            }
-        </div>
-    );
-};
+  return (
+    <div className="applicantHolder">
+      <Typography variant="h3">Applicant</Typography>
+      <Typography variant="body1">
+        Information about the person applying for expungement or sealing.
+      </Typography>
+      {!props.editing ? <Applicant {...props} /> : <EditApplicant {...props} />}
+    </div>
+  );
+}
 
 function mapStateToProps(state) {
-    return state.applicantInfo.applicant;
-};
+  return state.applicantInfo.applicant;
+}
 
 /**
  * The modifier function takes a key,value pair
@@ -34,12 +35,15 @@ function mapStateToProps(state) {
  * object being edited.  It is used by the EditApplicant component.
  */
 function mapDispatchToProps(dispatch, ownProps) {
-    return {
-        modifier: (key, value) => {
-            dispatch(editApplicant(key, value))
-        }
-    };
-};
+  return {
+    modifier: (key, value) => {
+      dispatch(editApplicant(key, value));
+    },
+  };
+}
 
-const ApplicantHolderWrapper = connect(mapStateToProps, mapDispatchToProps)(ApplicantHolder);
+const ApplicantHolderWrapper = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ApplicantHolder);
 export default ApplicantHolderWrapper;

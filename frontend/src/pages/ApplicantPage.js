@@ -20,10 +20,6 @@ function GettingStarted(props) {
     <Container>
       <Paper className={classes.paper}>
         <div className="gettingStarted">
-          <div style={{ color: "red" }}>
-            Please enter the applicant's address, social security number, and
-            any other information which will not be provided by uploaded files.
-          </div>
           <ApplicantHolderWrapper />
         </div>
         <NameSearch />

@@ -168,21 +168,28 @@ export const EditPetitionForm = (props) => {
           label="First Name"
           value={client.first_name}
           onChange={handleSetApplicant("first_name")}
+          required
         ></TextField>
         <TextField
+          required
           label="Last Name"
           value={client.last_name}
           onChange={handleSetApplicant("last_name")}
         ></TextField>
         <TextField
+          required
           label="Date of birth"
-          value={client.date_of_birth}
+          type="date"
+          value={client.date_of_birth || ""}
+          InputLabelProps={{ shrink: true }}
           onChange={handleSetApplicant("date_of_birth")}
         ></TextField>
         <TextField
           label="Date of death"
-          value={client.date_of_death}
+          value={client.date_of_death || ""}
+          type="date"
           onChange={handleSetApplicant("date_of_death")}
+          InputLabelProps={{ shrink: true }}
         ></TextField>
         <TextField
           label="SSN"

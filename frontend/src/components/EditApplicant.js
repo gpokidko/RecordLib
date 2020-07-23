@@ -19,9 +19,8 @@ function EditApplicant(props) {
   const applicantStyle = {
     display: "grid",
     gridTemplateColumns: "50% 50%",
-    margin: "15px",
-    border: "1px solid black",
-    borderRadius: "5px",
+    marginTop: "15px",
+    marginBottom: "15px",
     padding: "10px",
     width: "90%",
   };
@@ -44,11 +43,13 @@ function EditApplicant(props) {
           <EditField
             item={first_name}
             label="First Name: "
+            required
             modifier={getPropertyModifier("first_name")}
           />
           <EditField
             item={last_name}
             label="Last Name: "
+            required
             modifier={getPropertyModifier("last_name")}
           />
         </div>
@@ -64,6 +65,7 @@ function EditApplicant(props) {
           item={date_of_birth}
           fieldType="date"
           label="DOB: "
+          required
           modifier={getPropertyModifier("date_of_birth")}
         />
         <EditField

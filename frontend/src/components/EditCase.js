@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-
+import Button from "@material-ui/core/Button";
 import EditField from "./EditField";
 import Charges from "./Charges";
 
@@ -33,8 +33,6 @@ function EditCase(props) {
     display: "grid",
     gridTemplateColumns: "270px 270px 270px",
     margin: "10px",
-    border: "1px solid black",
-    borderRadius: "15px",
     padding: "10px",
     width: "860px",
   };
@@ -56,13 +54,13 @@ function EditCase(props) {
           modifier={getPropertyModifier("docket_number")}
         />
       </div>
-      <button
+      <Button
         type="button"
         style={{ marginLeft: "20px" }}
         onClick={toggleEditing}
       >
         Done Editing
-      </button>
+      </Button>
       <EditField
         item={otn}
         label="OTN: "

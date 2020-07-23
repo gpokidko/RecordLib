@@ -36,6 +36,14 @@ export function petitionsUpdatesReducer(
   return state;
 }
 
+/** Generate a new petition Id, given the current list of ids.
+ *
+ * This assumes that ids are numbers.
+ */
+const newPetitionId = (petitionIds) => {
+  return Math.max(petitionIds.map((pid) => Number(pid))) + 1;
+};
+
 const initialCollectionState = {
   entities: {
     petitions: {},
@@ -65,12 +73,13 @@ export function petitionCollectionReducer(
   switch (action.type) {
     case NEW_PETITION: {
       // Add a new petition
+      console.log("adding a new petition");
       const newPetition = action.payload;
       // create a new id for this new petition, only if necessary.
       // (if the petitions is from the server, it'llneed a local ID.
       //  but if it was created locally, the New Petition component
       //  will come up with the new id.)
-      const newId = newPetition.id || state.petitionIds.length.toString();
+      const newId = newPetition.id || newPetitionId(state.petitionIds);
       const normalizedPetition = normalizeOnePetition(newPetition, newId);
       const newState = {
         entities: {

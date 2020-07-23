@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-
+import Button from "@material-ui/core/Button";
 import { addSentence } from "frontend/src/actions";
 
 /**
@@ -22,13 +22,7 @@ function AddSentence(props) {
       className="addSentence"
       style={{ marginTop: "15px", marginBottom: "10px" }}
     >
-      <button
-        type="button"
-        style={{ marginLeft: "20px" }}
-        onClick={handleClick}
-      >
-        Add Sentence
-      </button>
+      <Button onClick={handleClick}>Add Sentence</Button>
     </div>
   );
 }

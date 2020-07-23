@@ -3,13 +3,25 @@ import { connect } from "react-redux";
 import Button from "@material-ui/core/Button";
 import { EditPetitionFormConnected as EditPetitionForm } from "frontend/src/forms/EditPetition";
 import { newPetition } from "frontend/src/actions/petitions";
+import Paper from "@material-ui/core/Paper";
+import { makeStyles } from "@material-ui/core/styles";
 
+const useStyles = makeStyles((theme) => {
+  return {
+    paper: {
+      padding: theme.spacing(3),
+      marginTop: theme.spacing(3),
+    },
+  };
+});
 /**
  * NewPetitionForm
  *
  * A button. If you click that button, create a form for editing a new petition. Give the new petition an ID.
  */
 export const NewPetitionForm = (props) => {
+  const styles = useStyles();
+
   const {
     newPetitionId,
     editingPetitionId,
@@ -31,14 +43,18 @@ export const NewPetitionForm = (props) => {
   };
 
   return (
-    <div>
-      <Button onClick={handleButtonClick}>New Petition</Button>
+    <>
+      <Paper className={styles.paper}>
+        <Button onClick={handleButtonClick}>New Petition</Button>
+      </Paper>
       {showEditForm && editingPetitionId ? (
-        <EditPetitionForm petitionId={editingPetitionId} />
+        <Paper className={styles.paper}>
+          <EditPetitionForm petitionId={editingPetitionId} />
+        </Paper>
       ) : (
         <></>
       )}
-    </div>
+    </>
   );
 };
 

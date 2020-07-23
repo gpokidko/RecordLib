@@ -8,6 +8,7 @@ import {
 } from "../normalize";
 import { addOrReplaceApplicant } from "./applicant";
 import { upsertSourceRecords } from "./sourceRecords";
+import { newPetition } from "./petitions";
 import { setMessage } from "./messages";
 export const UPDATE_CRECORD = "UPDATE_CRECORD";
 export const UPDATE_CRECORD_SUCCEEDED = "UPDATE_CRECORD_SUCCEEDED";
@@ -19,7 +20,7 @@ function analyzeRecordsSucceeded(data) {
   // nested. But we won't edit it, I think.
   const normalizedAnalysis = normalizeAnalysis(data);
   return {
-    type: "ANALYZE_CRECORD_SUCCEEDED",
+    type: ANALYZE_CRECORD_SUCCEDED,
     payload: normalizedAnalysis,
   };
 }
@@ -49,10 +50,17 @@ export function analyzeCRecord() {
         const data = response.data;
         const action = analyzeRecordsSucceeded(data);
         dispatch(action);
+        console.log("crecord analysis returned");
+        console.log(data);
+        data.decisions.forEach((decision) =>
+          decision.value.forEach((petition) => {
+            dispatch(newPetition(petition));
+          })
+        );
       })
       .catch((err) => {
         console.log("Error analyzing crecord.");
-        dispatch(setMessage(err));
+        console.log(err);
       });
   };
 }

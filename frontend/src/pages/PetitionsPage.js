@@ -63,9 +63,7 @@ function PetitionsPage(props) {
         <div></div>
         <PetitionsTableConnected />
       </Paper>
-      <Paper className={styles.paper}>
-        <NewPetitionForm />
-      </Paper>
+      <NewPetitionForm />
     </Container>
   );
 }

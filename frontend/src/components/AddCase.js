@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import TextField from "@material-ui/core/TextField";
 import { addCase } from "frontend/src/actions";
-
+import Button from "@material-ui/core/Button";
 /**
  * Component for adding a Case to a CRecord.
  * It starts with a textbox to enter the docket number of the case,
@@ -38,13 +38,9 @@ function AddCase(props) {
         onChange={handleChange}
         onKeyDown={handleKeyDown}
       />
-      <button
-        type="button"
-        style={{ marginLeft: "20px" }}
-        onClick={handleClick}
-      >
+      <Button onClick={handleClick} disabled={docketNumber === ""}>
         Add Case
-      </button>
+      </Button>
     </div>
   );
 }

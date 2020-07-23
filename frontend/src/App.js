@@ -11,9 +11,9 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import Applicant from "frontend/src/pages/Applicant";
+import ApplicantPage from "frontend/src/pages/ApplicantPage";
 import SourceRecords from "frontend/src/pages/SourceRecords";
-import RecordEdit from "frontend/src/pages/RecordEdit";
+import RecordPage from "frontend/src/pages/RecordPage";
 import PetitionsPage from "frontend/src/pages/PetitionsPage";
 import Analysis from "frontend/src/pages/Analysis";
 import AttorneyPage from "frontend/src/pages/AttorneyPage";
@@ -33,7 +33,7 @@ function App() {
               <UserProfile />
             </Route>
             <Route path="/applicant">
-              <Applicant />
+              <ApplicantPage />
             </Route>
             <Route path="/attorney">
               <AttorneyPage />
@@ -42,7 +42,7 @@ function App() {
               <SourceRecords />
             </Route>
             <Route path="/criminalrecord">
-              <RecordEdit />
+              <RecordPage />
             </Route>
             <Route path="/analysis">
               <Analysis />

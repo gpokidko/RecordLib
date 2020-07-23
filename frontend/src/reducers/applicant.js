@@ -9,8 +9,8 @@ import { combineReducers } from "redux";
 const initialApplicant = {
   first_name: "",
   last_name: "",
-  date_of_birth: "",
-  date_of_death: "",
+  date_of_birth: null,
+  date_of_death: null,
   ssn: "",
   address: { line_one: "", city_state_zip: "" },
   aliases: [],

@@ -65,7 +65,7 @@ export function fetchPetitions(petitions) {
 
   return client.post(
     "/api/record/petitions/",
-    { petitions: petitions },
+    { petitions: petitions.map((p) => removeNullValues(p)) },
     config
   );
 }

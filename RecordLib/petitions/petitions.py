@@ -48,6 +48,12 @@ class Petition:
         """
         Return a dict to pass to render that describes the info in the petition.
         """
+        if len(self.cases) > 0:
+            disposition_list = ", ".join(
+                [ch.disposition for ch in self.cases[0].charges]
+            )
+        else:
+            disposition_list = ""
         return {
             "date": date.today().strftime(r"%B %d, %Y"),
             "attorney": self.attorney,
@@ -55,9 +61,7 @@ class Petition:
             "client": self.client,
             "ifp_message": self.ifp_message,
             "service_agencies": self.service_agencies,
-            "disposition_list": ", ".join(
-                [ch.disposition for ch in self.cases[0].charges]
-            ),
+            "disposition_list": disposition_list,
         }
 
     def file_name(self) -> str:
@@ -68,7 +72,7 @@ class Petition:
             docknum = self.cases[0].docket_number
         except:
             docknum = "NoCases"
-        return f"{self.petition_type}_{self.client.last_name}_{self.cases[0].docket_number}.docx"
+        return f"{self.petition_type}_{self.client.last_name}_{docknum}.docx"
 
     def render(self) -> DocxTemplate:
         """
