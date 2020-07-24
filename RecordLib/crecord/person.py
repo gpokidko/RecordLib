@@ -9,6 +9,7 @@ from .helpers import convert_datestring
 
 logger = logging.getLogger(__name__)
 
+
 @dataclass
 class Person:
     """
@@ -28,13 +29,13 @@ class Person:
         """ Create a Person from a dict describing one. """
         if dct is not None:
             return Person(
-                first_name = dct.get("first_name"),
-                last_name = dct.get("last_name"),
-                date_of_birth = convert_datestring(dct.get("date_of_birth")), 
-                date_of_death = convert_datestring(dct.get("date_of_death")),
-                aliases = dct.get("aliases") or [],
-                ssn = dct.get("ssn"),
-                address = Address.from_dict(dct.get("address"))
+                first_name=dct.get("first_name"),
+                last_name=dct.get("last_name"),
+                date_of_birth=convert_datestring(dct.get("date_of_birth")),
+                date_of_death=convert_datestring(dct.get("date_of_death")),
+                aliases=[val for val in dct.get("aliases") if val is not None] or [],
+                ssn=dct.get("ssn"),
+                address=Address.from_dict(dct.get("address")),
             )
 
     def age(self) -> int:

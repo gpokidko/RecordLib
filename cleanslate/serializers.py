@@ -106,7 +106,7 @@ class PersonSerializer(S.Serializer):
     date_of_birth = S.DateField(required=False, allow_null=True)
     date_of_death = S.DateField(required=False, allow_null=True)
     aliases = S.ListField(
-        child=S.CharField(), required=False,
+        child=S.CharField(allow_null=True), required=False,
     )  # CharField() doesn't seem to take many=True.
     ssn = S.CharField(max_length=15, required=False, allow_blank=True)
     address = AddressSerializer(required=False)

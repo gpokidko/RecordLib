@@ -103,9 +103,13 @@ def test_download_ujs_docs(admin_client):
             pytest.fail("rec in response didn't have an id")
 
 
-def test_download_petition(admin_client, admin_user, example_case):
+@pytest.fixture()
+def admin_user(admin_user):
     """
-    Post a set of Petitions to the server to generate them and download the docx files. 
+    Modify the pytest-django admin user fixture.
+
+    Register petition templates with the admin_user so that 
+    it can generate petitions.
     """
     exp_template = create_default_petition(
         ExpungementPetitionTemplate,
@@ -122,6 +126,13 @@ def test_download_petition(admin_client, admin_user, example_case):
     admin_user.userprofile.sealing_petition_template = sealing_template
     admin_user.userprofile.save()
 
+    return admin_user
+
+
+def test_download_petition(admin_client, admin_user, example_case):
+    """
+    Post a set of Petitions to the server to generate them and download the docx files. 
+    """
     data = {
         "petitions": [
             {
@@ -153,5 +164,44 @@ def test_download_petition(admin_client, admin_user, example_case):
     resp = admin_client.post(
         "/api/record/petitions/", data=data, content_type="application/json"
     )
-    breakpoint()
+    assert resp.status_code == 200
+
+
+def test_petition_endpoint_strips_none_values(admin_client, admin_user, example_case):
+    """
+    The endpoint that accepts petitions should strip None values from fields.
+
+    So far, this is limited to stripping None values in the list of aliases.
+    """
+    data = {
+        "petitions": [
+            {
+                "attorney": {
+                    "organization": "Legal Aid Org",
+                    "full_name": "Abraham Lincoln",
+                    "organization_address": {
+                        "line_one": "1234 S. St.",
+                        "city_state_zip": "Phila PA",
+                    },
+                    "organization_phone": "123-123-1234",
+                    "bar_id": "11222",
+                },
+                "client": {
+                    "first_name": "Suzy",
+                    "last_name": "Smith",
+                    "aliases": ["Joe", None],
+                },
+                "cases": [to_serializable(example_case)],
+                "expungement_type": Expungement.ExpungementTypes.FULL_EXPUNGEMENT,
+                "petition_type": "Expungment",  # as opposed to "Sealing",
+                "summary_expuntement_language": "and Petitioner is over 70 years old and has been free of arrest for more than ten years since this summary conviction.",
+                "service_agencies": ["The Zoo", "Jims Pizza Palace"],
+                "include_crim_hist_report": "",
+                "ifp_message": "Please allow this petition.",
+            }
+        ]
+    }
+    resp = admin_client.post(
+        "/api/record/petitions/", data=data, content_type="application/json"
+    )
     assert resp.status_code == 200
