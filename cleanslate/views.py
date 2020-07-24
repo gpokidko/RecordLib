@@ -334,6 +334,7 @@ class PetitionsView(APIView):
         try:
             serializer = PetitionViewSerializer(data=request.data)
             if serializer.is_valid():
+                errors = []
                 petitions = []
                 for petition_data in serializer.validated_data["petitions"]:
                     if petition_data["petition_type"] == "Sealing":
@@ -345,9 +346,13 @@ class PetitionsView(APIView):
                                 request.user.userprofile.sealing_petition_template.file
                             )
                             petitions.append(new_petition)
+
                         except Exception as err:
                             logger.error(
                                 "User has not set a sealing petition template, or "
+                            )
+                            errors.append(
+                                "User has not set a sealing petition template."
                             )
                             logger.error(str(err))
                             continue
@@ -362,11 +367,14 @@ class PetitionsView(APIView):
                             logger.error(
                                 "User has not set an expungement petition template, or "
                             )
+                            errors.append(
+                                "User has not set an expungememnt petition template"
+                            )
                             logger.error(str(err))
                             continue
                 client_last = petitions[0].client.last_name
                 petitions = [(p.file_name(), p.render()) for p in petitions]
-                package = Compressor(f"ExpungementsFor{client_last}.zip", petitions)
+                package = Compressor(f"PetitionsFor{client_last}.zip", petitions)
 
                 logger.info("Returning x-accel-redirect to zip file.")
 
@@ -384,7 +392,7 @@ class PetitionsView(APIView):
         except Exception as e:
             logger.error(str(e))
             return Response(
-                "Something went wrong",
+                {"errors": errors},
                 status=status.HTTP_400_BAD_REQUEST,
                 content_type="application/json",
             )

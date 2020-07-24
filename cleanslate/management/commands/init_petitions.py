@@ -20,7 +20,11 @@ def create_default_petition(TemplateModel, template_path, new_name):
         with open(template_path, "rb") as pet:
             new_petition = File(pet)
             new_petition.name = new_name
-            TemplateModel(name=new_name, file=new_petition, default=True).save()
+            template_model = TemplateModel(
+                name=new_name, file=new_petition, default=True
+            )
+            template_model.save()
+            return template_model
 
 
 class Command(BaseCommand):

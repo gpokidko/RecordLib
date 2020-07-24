@@ -5,6 +5,8 @@ import pytest
 from django.core.files import File
 from cleanslate.models import SourceRecord
 from cleanslate.serializers import SourceRecordSerializer, CRecordSerializer
+from cleanslate.management.commands.init_petitions import create_default_petition
+from cleanslate.models import SealingPetitionTemplate, ExpungementPetitionTemplate
 from RecordLib.crecord import CRecord
 from RecordLib.petitions import Expungement
 from RecordLib.utilities.serializers import to_serializable
@@ -101,10 +103,25 @@ def test_download_ujs_docs(admin_client):
             pytest.fail("rec in response didn't have an id")
 
 
-def test_download_petition(admin_client, example_case):
+def test_download_petition(admin_client, admin_user, example_case):
     """
     Post a set of Petitions to the server to generate them and download the docx files. 
     """
+    exp_template = create_default_petition(
+        ExpungementPetitionTemplate,
+        "templates/petitions/790ExpungementTemplate.docx",
+        "790ExpungementTemplate",
+    )
+    sealing_template = create_default_petition(
+        SealingPetitionTemplate,
+        "templates/petitions/791SealingTemplate.docx",
+        "791SealingTemplate",
+    )
+
+    admin_user.userprofile.expungement_petition_template = exp_template
+    admin_user.userprofile.sealing_petition_template = sealing_template
+    admin_user.userprofile.save()
+
     data = {
         "petitions": [
             {
@@ -118,7 +135,11 @@ def test_download_petition(admin_client, example_case):
                     "organization_phone": "123-123-1234",
                     "bar_id": "11222",
                 },
-                "client": {"first_name": "Suzy", "last_name": "Smith",},
+                "client": {
+                    "first_name": "Suzy",
+                    "last_name": "Smith",
+                    "aliases": ["Joe"],
+                },
                 "cases": [to_serializable(example_case)],
                 "expungement_type": Expungement.ExpungementTypes.FULL_EXPUNGEMENT,
                 "petition_type": "Expungment",  # as opposed to "Sealing",
@@ -129,8 +150,8 @@ def test_download_petition(admin_client, example_case):
             }
         ]
     }
-    breakpoint()
     resp = admin_client.post(
         "/api/record/petitions/", data=data, content_type="application/json"
     )
+    breakpoint()
     assert resp.status_code == 200
