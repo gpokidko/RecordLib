@@ -5,7 +5,7 @@ from RecordLib.utilities.serializers import to_serializable
 from RecordLib.crecord import CRecord, Person
 from RecordLib.sourcerecords import SourceRecord
 from RecordLib.sourcerecords.docket.re_parse_cp_pdf import parse_cp_pdf_text
-from RecordLib.sourcerecords.docket.parse_mdj_pdf import parse_mdj_pdf_text
+from RecordLib.sourcerecords.docket.re_parse_mdj_pdf import parse_mdj_pdf_text
 from RecordLib.sourcerecords.parsingutilities import get_text_from_pdf
 from RecordLib.analysis import Analysis
 from RecordLib.analysis import ruledefs as rd
@@ -50,7 +50,6 @@ def communicate_results(
     sources = []
     for sr in to_serializable(sourcerecords):
         sr.pop("raw_source")
-        sr.pop("parsed_source")
         sources.append(sr)
     results = {"sourcerecords": sources, "analysis": to_serializable(analysis)}
     message_builder = EmailBuilder(sources, analysis)
