@@ -8,6 +8,7 @@ Right now this is only an experimental project for trying out some ideas and new
 ```
 git clone https://github.com/clsphila/RecordLib
 cd RecordLib
+make system-check
 make docker-pull-up
 ```
 
