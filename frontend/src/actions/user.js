@@ -1,5 +1,5 @@
 import * as api from "../api";
-import { setMessage } from "./messages";
+import { newMessage } from "./messages";
 export const FETCH_USER_PROFILE_SUCCEEDED = "FETCH_USER_PROFILE_SUCCEEDED";
 
 export function fetchUserProfileSucceeded(profileData) {
@@ -20,7 +20,7 @@ export function fetchUserProfile() {
       .catch((err) => {
         console.log("fetching user profile failed because:");
         console.log(err);
-        dispatch(setMessage(err));
+        dispatch(newMessage(err));
       });
   };
 }

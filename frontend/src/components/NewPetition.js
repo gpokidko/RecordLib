@@ -5,6 +5,7 @@ import { EditPetitionFormConnected as EditPetitionForm } from "frontend/src/form
 import { newPetition } from "frontend/src/actions/petitions";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core/styles";
+import { generatePetitionId } from "frontend/src/utils/idGenerators";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -23,7 +24,7 @@ export const NewPetitionForm = (props) => {
   const styles = useStyles();
 
   const {
-    newPetitionId,
+    petitionIds,
     editingPetitionId,
     newPetition,
     defaultAttorney,
@@ -33,6 +34,7 @@ export const NewPetitionForm = (props) => {
   const [showEditForm, setShowEditForm] = useState(editingPetitionId !== null);
 
   const handleButtonClick = () => {
+    const newPetitionId = generatePetitionId(petitionIds);
     newPetition(
       newPetitionId,
       defaultAttorney,
@@ -58,15 +60,9 @@ export const NewPetitionForm = (props) => {
   );
 };
 
-const generatePetitionId = (petitionIds) => {
-  return (Math.max(petitionIds.map((id) => parseInt(id))) + 1).toString();
-};
-
 const mapStateToProps = (state) => {
   return {
-    newPetitionId: generatePetitionId(
-      state.petitions.petitionCollection.petitionIds
-    ),
+    petitionIds: state.petitions.petitionCollection.petitionIds,
     editingPetitionId: state.petitions.petitionCollection.editingPetitionId,
     defaultAttorney: state.attorney,
     defaultApplicantInfo: state.applicantInfo,

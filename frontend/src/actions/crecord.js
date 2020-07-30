@@ -9,7 +9,7 @@ import {
 import { addOrReplaceApplicant } from "./applicant";
 import { upsertSourceRecords } from "./sourceRecords";
 import { newPetition } from "./petitions";
-import { setMessage } from "./messages";
+import { newMessage } from "./messages";
 export const UPDATE_CRECORD = "UPDATE_CRECORD";
 export const UPDATE_CRECORD_SUCCEEDED = "UPDATE_CRECORD_SUCCEEDED";
 export const FETCH_CRECORD_SUCCEEDED = "FETCH_CRECORD_SUCCEEDED";
@@ -117,7 +117,7 @@ export function updateCRecord() {
       .catch((err) => {
         console.log("error sending crecord and sourcerecords to server.");
         console.log(err);
-        dispatch(setMessage(err));
+        dispatch(newMessage(err));
       });
   };
 }

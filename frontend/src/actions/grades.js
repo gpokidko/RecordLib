@@ -4,7 +4,7 @@
  */
 
 import * as api from "../api";
-import { setMessage } from "frontend/src/actions/messages";
+import { newMessage } from "frontend/src/actions/messages";
 
 export const GUESS_GRADE_SUCCEEDED = "GUESS_GRADE_SUCCEEDED";
 export const UPDATE_GRADE = "UPDATE_GRADE";
@@ -26,7 +26,7 @@ export function guessGrade(chargeId, offense, statute) {
       .catch((err) => {
         console.log("guess grade api call failed.");
         console.log(err);
-        dispatch(setMessage(err));
+        dispatch(newMessage(err));
       });
   };
 }

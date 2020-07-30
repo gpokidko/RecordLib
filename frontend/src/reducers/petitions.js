@@ -9,6 +9,7 @@ import {
   SET_SERVICE_AGENCIES_ON_PETITION,
 } from "../actions/petitions";
 
+import { generatePetitionId } from "frontend/src/utils/idGenerators";
 /** Find the ids of charges related to a list of cases
  * that need to be deleted.
  */
@@ -35,14 +36,6 @@ export function petitionsUpdatesReducer(
   }
   return state;
 }
-
-/** Generate a new petition Id, given the current list of ids.
- *
- * This assumes that ids are numbers.
- */
-const newPetitionId = (petitionIds) => {
-  return Math.max(petitionIds.map((pid) => Number(pid))) + 1;
-};
 
 const initialCollectionState = {
   entities: {
@@ -73,13 +66,12 @@ export function petitionCollectionReducer(
   switch (action.type) {
     case NEW_PETITION: {
       // Add a new petition
-      console.log("adding a new petition");
       const newPetition = action.payload;
       // create a new id for this new petition, only if necessary.
       // (if the petitions is from the server, it'llneed a local ID.
       //  but if it was created locally, the New Petition component
       //  will come up with the new id.)
-      const newId = newPetition.id || newPetitionId(state.petitionIds);
+      const newId = newPetition.id || generatePetitionId(state.petitionIds);
       const normalizedPetition = normalizeOnePetition(newPetition, newId);
       const newState = {
         entities: {

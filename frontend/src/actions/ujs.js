@@ -1,7 +1,7 @@
 import * as api from "../api";
 import { upsertSourceRecords } from "./sourceRecords";
 import { updateCRecord } from "./crecord";
-import { setMessage } from "./messages";
+import { newMessage } from "./messages";
 /**
  * Actions related to accessing ujs-related api endpoints.
  *
@@ -45,7 +45,7 @@ export function searchUJSByName(first_name, last_name, date_of_birth) {
       .catch((err) => {
         console.log("Searching ujs by name failed.");
         console.log(err);
-        dispatch(setMessage(err));
+        dispatch(newMessage(err));
       });
   };
 }
