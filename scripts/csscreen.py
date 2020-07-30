@@ -52,7 +52,6 @@ def communicate_results(
     sources = []
     for sr in to_serializable(sourcerecords):
         sr.pop("raw_source")
-        sr.pop("parsed_source")
         sources.append(sr)
     results = {"sourcerecords": sources, "analysis": to_serializable(analysis)}
     message_builder = EmailBuilder(sources, analysis)
