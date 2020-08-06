@@ -1,12 +1,19 @@
 <%! import re %>
 
-<%def name="record_summary(cases)">
+<%def name="record_summary(cases, remainingcases, petitions, get_unsealable_until_date, caseExist, petionDetails)">
     % for case in cases:
 
         <div style="padding-bottom: 0">
             <p>
                 <p>
-                    <b> Case: ${ case.docket_number } </b>
+                    <b> Case: ${ case.docket_number }</b>
+                    %if (caseExist(case, remainingcases)):
+                        (eligible for sealing or expungement)
+                    %endif
+                    %if len(petionDetails(case, petitions)) > 0:
+
+                    (can be cleared because: ${ petionDetails(case, petitions) })
+                    %endif
                 </p>
                 <p>
                     County: ${ getattr(case, 'county', 'COUNTY UNKNOWN') }
@@ -28,6 +35,9 @@
                     It appears that you may still owe court fines and costs on this case, 
                     in the amount of $${ (getattr(case, 'total_fines', 0) or 0) - (getattr(case, 'fines_paid', 0) or 0)}. 
                 </p>
+            % endif
+            % if get_unsealable_until_date(case) is not None:
+                <p> It looks like this case will be eligible for sealing in the future, if you have no further convictions. ${ get_unsealable_until_date(case) }</p>
             % endif
         </div>
  

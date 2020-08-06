@@ -102,7 +102,19 @@ class EmailBuilder:
         # marked "Sealable", should be returned by this function, because these charges _would_ be sealable but for the fines.
         pass
 
-
+    def caseExist(self, case, cases) -> bool:
+        result = False;
+        for c in cases:
+            if(c.docket_number == case.docket_number):
+                result = True;
+                break;
+        return result;
+    def petionDetails(self, case, petitions):
+        for petition_type in petitions:
+            for petition in petition_type.value:
+                if(petition.cases[0].docket_number == case.docket_number):
+                    return petition_type.name
+        return "";
     def get_unsealable_until_date(self, case) -> List:
         """
         Explain whether a case will be sealable after a certain date. 
@@ -163,10 +175,16 @@ class EmailBuilder:
             base_template = mylookup.get_template("found_record.html")
         else:
             base_template = mylookup.get_template("did_not_find_record.html")
+        
         return base_template.render(
             analysis = self.analysis, 
             counties=self.get_counties(),
             sealable_with_fines=self.get_unsealable_because_of_fines(),
             num_cases_cleared=self.get_num_cases_cleared(),
             get_fees_on_case=self.get_fees_on_case,
-            get_unsealable_until_date=self.get_unsealable_until_date)
+            get_unsealable_until_date=self.get_unsealable_until_date,
+            caseExist=self.caseExist,
+            petionDetails=self.petionDetails
+            )
+        
+
